@@ -73,8 +73,9 @@
       const RenderList = () => {
         List.innerHTML = "";
         dataArr.map((val, index) => {
+          console.log("test here RenderList:::::::::::::", val, index);
           let listItem = document.createElement("li");
-          listItem.innerHTML = index + 1 + " " + val.userInput;
+          listItem.innerHTML = val.id + " " + val.userInput;
           List.appendChild(listItem);
 
           let removeButton = document.createElement("button");
