@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Input List</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>TO DO</h1>
+
+      <div class="input-section">
+        <input type="text" id="inputID" placeholder="Enter something..." />
+        <button id="addUpdate" onclick="HandleAdd()">Add</button>
+      </div>
+      <div id="taskListID"></div>
+    </div>
+
+    <script>
+      let List = document.getElementById("taskListID");
+      let addUpdateBtn = document.getElementById("addUpdate");
+      var dataArr = [];
+      let id = 0;
+      let flag = false;
+      let getID;
+      //   console.log(dataArr);
+
+      const HandleAdd = () => {
+        let userInput = document.getElementById("inputID");
+        if (flag == true) {
+          //
+          //   console.log(ids, userInput);
+          //
+          console.log(id, getID);
+          for (let i = 0; i < dataArr.length; i++) {
+            if (Number(dataArr[i].id) == getID) {
+              dataArr[i].userInput = userInput.value;
+              //
+              //   console.log(dataArr.userInput);
+              //
+              console.log(dataArr[i].userInput);
+
+              //   new chnage
+              addUpdateBtn.innerText = "ADD";
+            }
+          }
+        } else {
+          id++;
+          let demo = { id: id, userInput: userInput.value };
+          dataArr.push(demo);
+        }
+        RenderList();
+        flag = false;
+      };
+
+      const DeleteItem = (index) => {
+        dataArr = dataArr.filter((val, i) => val.id !== index);
+        RenderList();
+      };
+
+      const EditButtons = (index, val) => {
+        console.log(val);
+        flag = true;
+        console.log("test here :::::: " + addUpdateBtn.innerHTML);
+        addUpdateBtn.innerText = "Update idx : " + index;
+        getID = index;
+        let demo = (document.querySelector("#inputID").value = val.userInput);
+        // val.userInput = demo.innerText
+        RenderList();
+      };
+
+      const RenderList = () => {
+        List.innerHTML = "";
+        dataArr.map((val, index) => {
+          let listItem = document.createElement("li");
+          listItem.innerHTML = index + 1 + " " + val.userInput;
+          List.appendChild(listItem);
+
+          let removeButton = document.createElement("button");
+          removeButton.innerText = "Remove";
+          removeButton.onclick = () => DeleteItem(val.id);
+          List.appendChild(removeButton);
+
+          let EditButton = document.createElement("button");
+          EditButton.innerText = "Edit";
+          EditButton.onclick = () => EditButtons(val.id, val);
+          List.appendChild(EditButton);
+        });
+      };
+    </script>
+  </body>
+</html>
